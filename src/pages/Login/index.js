@@ -47,7 +47,7 @@ const Login = ({ navigation }) => {
         <View style={{ height: 16 }} />
         <Input onChangeText={(text) => setEmail(text)} />
         <View style={{ height: 16 }} />
-        <Input onChangeText={(text) => setPassword(text)}  />
+        <Input secureTextEntry onChangeText={(text) => setPassword(text)}  />
       </View>
       <Button title="Fazer login" onPress={doLogin}/>
     </Container>
