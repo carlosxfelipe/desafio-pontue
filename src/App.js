@@ -1,45 +1,19 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Alert,
-} from 'react-native';
-import axios from 'axios'
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+import Login from './pages/Login'
+import Home from './pages/Home'
 
-const App = () => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+const Stack = createNativeStackNavigator();
 
-  const doLogin = async () => {
-    try {
-      const response = await axios.post('https://desafio.pontue.com.br/auth/login', {
-        email,
-        password
-      });
-      if (response.status === 200) {
-        Alert.alert('Usuário logado')
-      }
-      console.log(response.data)
-    } catch (err) {
-      console.log('error => ', err)
-      Alert.alert('Combinação usuário/senha inexistente')
-    }
-  }
-
+export default function App() {
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <Text>Bem-vindo ao Pontue</Text>
-        <TextInput onChangeText={(text) => setEmail(text)} />
-        <TextInput onChangeText={(text) => setPassword(text)}  />
-      </View>
-      <Button title="Fazer login" onPress={doLogin}/>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-};
-
-export default App;
+}
