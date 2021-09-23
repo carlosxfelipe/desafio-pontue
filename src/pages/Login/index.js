@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Alert,
 } from 'react-native';
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Container, Input } from './styles'
 
@@ -15,6 +16,13 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
+  useEffect(async () => {
+    const value = await AsyncStorage.getItem('@access_token')
+    if (value != null) {
+        navigation.navigate('Home')
+    }
+  }, [])
+
   const doLogin = async () => {
     try {
       const response = await axios.post('https://desafio.pontue.com.br/auth/login', {
@@ -22,6 +30,7 @@ const Login = ({ navigation }) => {
         password
       });
       if (response.status === 200) {
+        await AsyncStorage.setItem('@access_token', response.data.access_token)
         navigation.navigate('Home')
       }
       console.log(response.data)
