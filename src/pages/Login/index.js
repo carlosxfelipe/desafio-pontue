@@ -31,6 +31,7 @@ const Login = ({ navigation }) => {
       });
       if (response.status === 200) {
         await AsyncStorage.setItem('@access_token', response.data.access_token)
+        await AsyncStorage.setItem('@aluno_id', response.data.aluno_id)
         navigation.navigate('Home')
       }
       console.log(response.data)
