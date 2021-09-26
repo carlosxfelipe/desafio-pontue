@@ -1,56 +1,57 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  Alert,
-} from 'react-native';
-import axios from 'axios'
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, Alert } from 'react-native';
+import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Container, Input } from './styles'
+import { Container, Input } from './styles';
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.post['Content-Type'] =
+  'application/x-www-form-urlencoded';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
   useEffect(async () => {
-    const value = await AsyncStorage.getItem('@access_token')
+    const value = await AsyncStorage.getItem('@access_token');
     if (value != null) {
-        navigation.navigate('Home')
+      navigation.navigate('Home');
     }
-  }, [])
+  }, []);
 
   const doLogin = async () => {
     try {
-      const response = await axios.post('https://desafio.pontue.com.br/auth/login', {
-        email,
-        password
-      });
+      const response = await axios.post(
+        'https://desafio.pontue.com.br/auth/login',
+        {
+          email,
+          password,
+        },
+      );
       if (response.status === 200) {
-        await AsyncStorage.setItem('@access_token', response.data.access_token)
-        await AsyncStorage.setItem('@aluno_id', response.data.aluno_id)
-        navigation.navigate('Home')
+        await AsyncStorage.setItem('@access_token', response.data.access_token);
+        await AsyncStorage.setItem('@aluno_id', response.data.aluno_id);
+        navigation.navigate('Home');
       }
-      console.log(response.data)
+      console.log(response.data);
     } catch (err) {
-      console.log('error => ', err)
-      Alert.alert('Combinação usuário/senha inexistente')
+      console.log('error => ', err);
+      Alert.alert('Combinação usuário/senha inexistente');
     }
-  }
+  };
 
   return (
     <Container>
       <View style={{ flex: 1 }}>
         <Text>Bem-vindo ao Pontue</Text>
         <View style={{ height: 16 }} />
-        <Input onChangeText={(text) => setEmail(text)} />
+        <Input onChangeText={text => setEmail(text)} />
         <View style={{ height: 16 }} />
-        <Input secureTextEntry onChangeText={(text) => setPassword(text)}  />
+        <Input secureTextEntry onChangeText={text => setPassword(text)} />
       </View>
-      <Button title="Fazer login" onPress={doLogin}/>
+      <Button title="Fazer login" onPress={doLogin} />
     </Container>
   );
 };

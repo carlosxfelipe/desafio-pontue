@@ -11,10 +11,10 @@ const Home = ({ navigation }) => {
   const [redacoes, setRedacoes] = useState(null);
 
   useEffect(async () => {
-    const value = await AsyncStorage.getItem('@aluno_id');
+    const alunoId = await AsyncStorage.getItem('@aluno_id');
     const token = await AsyncStorage.getItem('@access_token');
     const response = await axios.get(
-      `https://desafio.pontue.com.br/index/aluno/${value}`,
+      `https://desafio.pontue.com.br/index/aluno/${alunoId}`,
       { headers: { Authorization: `Bearer ${token}` } },
     );
     if (redacoes === null) {
